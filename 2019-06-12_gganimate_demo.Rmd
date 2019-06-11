@@ -15,8 +15,19 @@ library(ggmap)
 library(gganimate)
 ```
 
-First, check out some examples [here](https://github.com/thomasp85/gganimate) and [here](https://github.com/thomasp85/gganimate/wiki)
-[here](https://github.com/ropenscilabs/learngganimate) (we'll come back to this)
+
+#Resources 
+
+* [gganimate by Thomas Pedersen](https://github.com/thomasp85/gganimate) - scroll down to the bottom 
+* [gganimate wiki page](https://github.com/thomasp85/gganimate/wiki) - most of this is currently under development but there's some good examples
+
+* [ropensci examples](https://github.com/ropenscilabs/learngganimate).
+
+
+#Key elements
+
+
+#Examples
 
 Now, let's try one of the plots he created. Notice that it takes awhile to run. Then it displays it over in the viewer, rather than beneath the code, like we're used to. 
 
@@ -102,7 +113,9 @@ prop_top_5_anim_sex %>%
 ```
 
 
-There are many different types of transitions and ways to bring in transitions. 
+
+
+#Your turn!
 
 ```{exercise}
 Map my bike ride using animation! Requirements:
