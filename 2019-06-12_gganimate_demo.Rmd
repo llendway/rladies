@@ -11,6 +11,7 @@ output:
 library(tidyverse)
 library(babynames)
 library(knitr)
+library(ggmap)
 library(gganimate)
 ```
 
@@ -111,12 +112,12 @@ Map my bike ride using animation! Requirements:
 4. Add something of your own!
 ```
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 mallorca_bike_day7 <- read_csv("https://www.dropbox.com/s/zc6jan4ltmjtvy0/mallorca_bike_day7.csv?dl=1") %>% 
   select(1:4, speed)
 ```
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 mallorca_map <- get_stamenmap(
     bbox = c(left = 2.38, bottom = 39.55, right = 2.62, top = 39.7), 
     maptype = "terrain",
@@ -128,6 +129,6 @@ mallorca_map <- get_stamenmap(
 Use animation to tell an interesting story with the `small_trains` dataset that contains data from the SNCF (National Society of French Railways). Read more about the data [here](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-02-26).
 ```
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 small_trains <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-02-26/small_trains.csv") 
 ```
