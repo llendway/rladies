@@ -26,10 +26,25 @@ library(gganimate)
 
 #Key elements
 
+The `gganimate` package works well with `ggplot2` functions by providing additional grammar that assists in adding animation to the plots. From Thomas Pedersen's documentation, here are the key functions/grammar of the package:
+
+* `transition_*()` defines how the data should be spread out and how it relates to itself across time (time is not always actual time).
+* `view_*()` defines how the positional scales should change along the animation.
+* `shadow_*()` defines how data from other points in time should be presented in the given point in time.
+* `enter_*()/exit_*()` defines how new data should appear and how old data should disappear during the course of the animation.
+* `ease_aes()` defines how different aesthetics should be eased during transitions.
 
 #Examples
 
-Now, let's try one of the plots he created. Notice that it takes awhile to run. Then it displays it over in the viewer, rather than beneath the code, like we're used to. 
+Let's look at a simple plot that shows the distribution of *mpg* by cylinder.
+
+```{r}
+ggplot(mtcars, aes(factor(cyl), mpg)) + 
+  geom_boxplot()
+```
+
+
+Now, let's try one of the plots Pedersen created. Notice that it takes awhile to run. Then it displays it over in the viewer, rather than beneath the code, like we're used to. 
 
 ```{r, eval=FALSE}
 ggplot(mtcars, aes(factor(cyl), mpg)) + 

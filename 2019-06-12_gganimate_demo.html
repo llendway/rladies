@@ -128,7 +128,19 @@ $(document).ready(function () {
 </div>
 
 
-<p>First, check out some examples <a href="https://github.com/thomasp85/gganimate">here</a> and <a href="https://github.com/thomasp85/gganimate/wiki">here</a> <a href="https://github.com/ropenscilabs/learngganimate">here</a> (we’ll come back to this)</p>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<ul>
+<li><a href="https://github.com/thomasp85/gganimate">gganimate by Thomas Pedersen</a> - scroll down to the bottom</li>
+<li><p><a href="https://github.com/thomasp85/gganimate/wiki">gganimate wiki page</a> - most of this is currently under development but there’s some good examples</p></li>
+<li><p><a href="https://github.com/ropenscilabs/learngganimate">ropensci examples</a>.</p></li>
+</ul>
+</div>
+<div id="key-elements" class="section level1">
+<h1>Key elements</h1>
+</div>
+<div id="examples" class="section level1">
+<h1>Examples</h1>
 <p>Now, let’s try one of the plots he created. Notice that it takes awhile to run. Then it displays it over in the viewer, rather than beneath the code, like we’re used to.</p>
 <pre class="r"><code>ggplot(mtcars, aes(factor(cyl), mpg)) + 
   geom_boxplot() + 
@@ -187,7 +199,10 @@ prop_top_5_anim_yr %&gt;%
 
 prop_top_5_anim_sex %&gt;% 
   animate()</code></pre>
-<p>There are many different types of transitions and ways to bring in transitions.</p>
+</div>
+</div>
+<div id="your-turn" class="section level1">
+<h1>Your turn!</h1>
 <pre class="exercise"><code>Map my bike ride using animation! Requirements:
 1. Show current location with a red point. 
 2. Path up until the current point should be shown as well.
