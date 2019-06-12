@@ -7,7 +7,7 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE}
+```{r libraries, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(babynames)
 library(knitr)
@@ -199,7 +199,7 @@ ggmap(mallorca_map)
 
 The map below shows something similar, but for 7 different bike rides.
 
-```{r, out.width = "300px"}
+```{r, out.width = "400px"}
 include_graphics("mallorca_all.gif")
 ```
 

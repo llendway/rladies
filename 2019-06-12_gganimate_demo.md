@@ -8,6 +8,13 @@ output:
 ---
 
 
+```r
+library(tidyverse)
+library(babynames)
+library(knitr)
+library(ggmap)
+library(gganimate)
+```
 
 
 #Resources 
@@ -213,7 +220,7 @@ The map below shows something similar, but for 7 different bike rides.
 include_graphics("mallorca_all.gif")
 ```
 
-<img src="mallorca_all.gif" width="300px" />
+<img src="mallorca_all.gif" width="400px" />
 
 
 
