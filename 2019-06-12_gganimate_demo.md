@@ -13,6 +13,7 @@ output:
 #Resources 
 
 * [gganimate by Thomas Pedersen](https://github.com/thomasp85/gganimate) - scroll down to the bottom 
+* [Pedersen introductory vignette](https://cran.r-project.org/web/packages/gganimate/vignettes/gganimate.html) - gives a brief intro to what each of the key functions do
 * [gganimate wiki page](https://github.com/thomasp85/gganimate/wiki) - most of this is currently under development but there's some good examples
 
 * [ropensci examples](https://github.com/ropenscilabs/learngganimate).
@@ -20,42 +21,86 @@ output:
 
 #Key elements
 
+The `gganimate` package works well with `ggplot2` functions by providing additional grammar that assists in adding animation to the plots. From Thomas Pedersen's documentation, here are the key functions/grammar of the package:
+
+* `transition_*()` defines how the data should be spread out and how it relates to itself across time (time is not always actual time).
+* `view_*()` defines how the positional scales should change along the animation.
+* `shadow_*()` defines how data from other points in time should be presented in the given point in time.
+* `enter_*()/exit_*()` defines how new data should appear and how old data should disappear during the course of the animation.
+* `ease_aes()` defines how different aesthetics should be eased during transitions.
 
 #Examples
 
-Now, let's try one of the plots he created. Notice that it takes awhile to run. Then it displays it over in the viewer, rather than beneath the code, like we're used to. 
+##`mtcars` examples
+
+Let's look at a simple, static plot that shows the distribution of *mpg* by *cylinder*.
 
 
 ```r
 ggplot(mtcars, aes(factor(cyl), mpg)) + 
-  geom_boxplot() + 
-  # Here comes the gganimate code
-  transition_states(
-    gear,
-    transition_length = 2,
-    state_length = 1
-  ) +
-  enter_fade() + 
-  exit_shrink() +
-  ease_aes('sine-in-out')
+  geom_jitter(width = .2) +
+  theme_minimal() +
+  xlab("cylinders")
 ```
 
-We can save this as a gif. You need to PUT IN A PATH!!! (Go to where you want to save it, right click (or Control+click), hold down the option key, choose Copy "folder" as pathname ... wow, that's trickier than it should be). Then, be sure to name your gif as well. And ... BE CAREFUL WITH EXTRA SPACES that may be added when you copy and paste. I spent 20 minutes trying to figure out that problem (insert huge eye roll and palm to forehead). In order to open it from that your folder, you need to right click and open with a browser.
+![](2019-06-12_gganimate_demo_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+
+Now, let's try adding some animation. Notice that it takes a second to run. As your animations get more complicated, these take longer to load. When finished, it is displayed over in the viewer, rather than beneath the code, like we're used to. 
 
 
 ```r
-anim_save("PUT YOUR PATH HERE/boxplots.gif")
+ggplot(mtcars, aes(factor(cyl), mpg)) + 
+  geom_jitter(width = .2) +
+  theme_minimal() +
+  xlab("cylinders") +
+  # Here comes the gganimate code
+  transition_manual(gear) +
+  ggtitle('Gear:{current_frame}')
+```
+
+We can save this as a gif. You need to PUT IN A PATH!!! (Go to where you want to save it, right click (or Control+click), hold down the option key, choose Copy "folder" as pathname ... wow, that's trickier than it should be). Then, be sure to name your gif as well. And ... BE CAREFUL WITH EXTRA SPACES that may be added when you copy and paste. I spent 20 minutes trying to figure out that problem (insert huge eye roll and palm to forehead).
+
+
+```r
+anim_save("YOUR PATH/mtcars_scatter_gear.gif")
 ```
 
 
-Now, I can load that gif back in. This is a nice thing to do when you knit your file. Otherwise it will take forever to run!
 
-<img src="/Users/llendway/GoogleDriveMacalester/2019SPRING/MATH112/notes_r_code/Images/boxplots.gif" width="400px" />
+If you want to open the gif you just created, you need to right click and choose open with a browser. 
+
+Now, I can load that gif back in (you'll need to modify this code to point to the path you used). This is a nice thing to do when you knit your file. Otherwise it will take forever to run, especially as you add more complicated animations that have many more frames!
 
 
-##Babynames example
+```r
+include_graphics("YOUR PATH/mtcars_scatter_gear.gif")
+```
 
-We'll start with a simple example. Here is a static graph of the proportion of baby names in the top 5 over time.
+<img src="/Users/llendway/Documents/personal/R_fun_times/gganimate/mtcars_scatter_gear.gif" width="400px" />
+
+
+The `transition_manual()` is the most basic and doesn't allow for any tweening, which is animation as your transitioning from state to state. So, let's try a transition that allows that. Notice this takes longer to run, as it's making many more frames than the previous animation.
+
+
+```r
+ggplot(mtcars, aes(factor(cyl), mpg, group=gear)) + 
+  geom_jitter(width = .2) +
+  theme_minimal() +
+  xlab("cylinders") +
+  # Here comes the gganimate code
+  transition_states(gear)  +
+  enter_fade() + 
+  exit_shrink() 
+```
+**Caution**: the group aesthetic here is important. Try taking it out. Notice that the points look like they are moving across gears. This can be a good thing, but in this case wouldn't make sense.
+
+
+
+
+
+##`babynames` examples
+
+Here is a static graph of the proportion of baby names in the top 5 over time.
 
 
 ```r
@@ -74,7 +119,7 @@ prop_top_5 %>%
   theme_minimal()
 ```
 
-![](2019-06-12_gganimate_demo_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](2019-06-12_gganimate_demo_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 
 The code below shows two ways we could animate this. The second one is not very valuable but helps show a different version of how to animate.
