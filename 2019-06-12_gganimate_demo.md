@@ -58,6 +58,22 @@ ggplot(mtcars, aes(factor(cyl), mpg)) +
   ggtitle('Gear:{current_frame}')
 ```
 
+We also could have saved this code and then used the `animate()` function.
+
+
+```r
+mtcars_anim_by_gear <-
+  ggplot(mtcars, aes(factor(cyl), mpg)) + 
+  geom_jitter(width = .2) +
+  theme_minimal() +
+  xlab("cylinders") +
+  # Here comes the gganimate code
+  transition_manual(gear) +
+  ggtitle('Gear:{current_frame}')
+
+animate(mtcars_anim_by_gear)
+```
+
 We can save this as a gif. You need to PUT IN A PATH!!! (Go to where you want to save it, right click (or Control+click), hold down the option key, choose Copy "folder" as pathname ... wow, that's trickier than it should be). Then, be sure to name your gif as well. And ... BE CAREFUL WITH EXTRA SPACES that may be added when you copy and paste. I spent 20 minutes trying to figure out that problem (insert huge eye roll and palm to forehead).
 
 
@@ -79,7 +95,7 @@ include_graphics("YOUR PATH/mtcars_scatter_gear.gif")
 <img src="/Users/llendway/Documents/personal/R_fun_times/gganimate/mtcars_scatter_gear.gif" width="400px" />
 
 
-The `transition_manual()` is the most basic and doesn't allow for any tweening, which is animation as your transitioning from state to state. So, let's try a transition that allows that. Notice this takes longer to run, as it's making many more frames than the previous animation.
+The `transition_manual()` is the most basic and doesn't allow for any tweening, which is animation as your transitioning from state to state. So, let's try a transition that allows that. We also add some `enter_*()` and `exit_*()` options. Notice this takes longer to run, as it's making many more frames than the previous animation.
 
 
 ```r
@@ -95,12 +111,9 @@ ggplot(mtcars, aes(factor(cyl), mpg, group=gear)) +
 **Caution**: the group aesthetic here is important. Try taking it out. Notice that the points look like they are moving across gears. This can be a good thing, but in this case wouldn't make sense.
 
 
-
-
-
 ##`babynames` examples
 
-Here is a static graph of the proportion of baby names in the top 5 over time.
+The next example will illustrate some new transitions, `transition_reveal()` and `transition_time()`. We will also see some additional options for how to display past (and future) points. First, here is a static graph of the proportion of baby names in the top 5 over time.
 
 
 ```r
@@ -110,54 +123,58 @@ prop_top_5 <-
   top_n(n = 5, wt = n) %>% 
   summarize(prop_in_top5 = sum(prop))
 
-prop_top_5 %>% 
-  ggplot() +
-  geom_line(aes(x=year, y=prop_in_top5, color=sex)) +
-  labs(title = "Using popular names has declined over time",
-       y = "Proportion of names in the top 5") +
-  scale_x_continuous(breaks = seq(1880,2020,10)) +
-  theme_minimal()
-```
-
-![](2019-06-12_gganimate_demo_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
-
-
-The code below shows two ways we could animate this. The second one is not very valuable but helps show a different version of how to animate.
-
-
-```r
-prop_top_5_anim_yr <- 
- prop_top_5 %>% 
- ggplot() +
-  geom_line(aes(x=year, y=prop_in_top5, color=sex)) +
-  labs(title = "Using popular names has declined over time",
-       y = "Proportion of names in the top 5") +
-  scale_x_continuous(breaks = seq(1880,2020,10)) +
-  theme_minimal() +
-  transition_reveal(year)
-
-prop_top_5_anim_yr %>% 
-  animate()
-```
-
-
-```r
-prop_top_5_anim_sex <-
+prop_top_5_line <-
   prop_top_5 %>% 
   ggplot() +
   geom_line(aes(x=year, y=prop_in_top5, color=sex)) +
   labs(title = "Using popular names has declined over time",
        y = "Proportion of names in the top 5") +
   scale_x_continuous(breaks = seq(1880,2020,10)) +
-  theme_minimal() +
-  transition_manual(sex)
+  theme_minimal()
 
-prop_top_5_anim_sex %>% 
-  animate()
+prop_top_5_line
 ```
 
+![](2019-06-12_gganimate_demo_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 
+Here are some animations using this dataset, trying to highlight some options that are available.
+
+`transition_reveal()` keeps the history and is useful for showing a line or path over time or spatially, like on a map.
+
+
+```r
+prop_top_5_line +
+  transition_reveal(year) 
+```
+
+The `shadow_wake()` function allows you to see some of the historical data. There are options to modify how exactly you see them.
+
+
+```r
+prop_top_5_points <- 
+ prop_top_5 %>% 
+ ggplot() +
+  geom_point(aes(x=year, y=prop_in_top5, color=sex)) +
+  labs(title = "Using popular names has declined over time",
+       y = "Proportion of names in the top 5") +
+  scale_x_continuous(breaks = seq(1880,2020,10)) +
+  theme_minimal() 
+
+
+prop_top_5_points +
+  transition_time(year) +
+  shadow_wake(wake_length = .1, size = .7, alpha = .7) 
+```
+
+`shadow_trail()` shows a fraction of the historical points, like a breadcrumb trail.
+
+
+```r
+prop_top_5_points +
+  transition_time(year) +
+  shadow_trail()
+```
 
 #Your turn!
 
@@ -183,7 +200,21 @@ mallorca_map <- get_stamenmap(
     maptype = "terrain",
     zoom = 11
 )
+
+ggmap(mallorca_map)
 ```
+
+![](2019-06-12_gganimate_demo_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+
+The map below shows something similar, but for 7 different bike rides.
+
+
+```r
+include_graphics("mallorca_all.gif")
+```
+
+<img src="mallorca_all.gif" width="300px" />
+
 
 
 ```exercise

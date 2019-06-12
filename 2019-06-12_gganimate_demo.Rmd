@@ -193,7 +193,16 @@ mallorca_map <- get_stamenmap(
     maptype = "terrain",
     zoom = 11
 )
+
+ggmap(mallorca_map)
 ```
+
+The map below shows something similar, but for 7 different bike rides.
+
+```{r, out.width = "300px"}
+include_graphics("mallorca_all.gif")
+```
+
 
 ```{exercise}
 Use animation to tell an interesting story with the `small_trains` dataset that contains data from the SNCF (National Society of French Railways). Read more about the data [here](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-02-26).
