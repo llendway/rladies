@@ -101,7 +101,7 @@ include_graphics("/Users/llendway/Documents/personal/R_fun_times/gganimate/mtcar
 The `transition_manual()` is the most basic and doesn't allow for any tweening, which is animation as your transitioning from state to state. So, let's try a transition that allows that. We also add some `enter_*()` and `exit_*()` options. Notice this takes longer to run, as it's making many more frames than the previous animation.
 
 ```{r, eval=FALSE}
-ggplot(mtcars, aes(factor(cyl), mpg, group=gear)) + 
+ggplot(mtcars, aes(factor(cyl), mpg, group = gear)) + 
   geom_jitter(width = .2) +
   theme_minimal() +
   xlab("cylinders") +
